@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レポートファイル名生成</title>
+</head>
+<body>
+    <form id="report-form">
+        <label for="name">氏名:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <label for="student-number">学籍番号 (半角小文字英数7桁):</label>
+        <input type="text" id="student-number" name="student-number" pattern="[a-z0-9]{7}" title="半角小文字英数7桁の学籍番号を入力してください" required>
+        <br>
+        <label for="class-number">授業回数:</label>
+        <select id="class-number" name="class-number" required>
+          <option value="第1回">第1回</option>
+          <option value="第2回">第2回</option>
+          <option value="第3回">第3回</option>
+          <option value="第4回">第4回</option>
+          <option value="第5回">第5回</option>
+          <option value="第6回">第6回</option>
+          <option value="第7回">第7回</option>
+          <option value="第8回">第8回</option>
+          <option value="第9回">第9回</option>
+          <option value="第10回">第10回</option>
+          <option value="第11回">第11回</option>
+          <option value="第12回">第12回</option>
+          <option value="第13回">第13回</option>
+          <option value="第14回">第14回</option>
+          <option value="中間1">中間1</option>
+          <option value="中間2">中間2</option>  
+          <option value="期末">期末</option>
+        </select>
+        <br>
+        <button type="submit">ファイル名生成</button>
+    </form>
+    <p id="output"></p>
+    <script>
+        document.getElementById("report-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const studentNumber = document.getElementById("student-number").value;
+            const classNumber = document.getElementById("class-number").value;
+
+            const fileName = `2023_春学期_入門外国語経営_${classNumber}_${studentNumber}_${name}`;
+
+            document.getElementById("output").innerText = `この鍵かっこ「」の中にあるファイル名をコピー＆ペーストしてください: 「${fileName}」`;
+        });
+    </script>
+</body>
+</html>
