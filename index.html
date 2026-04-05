@@ -3,51 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>レポートファイル名生成</title>
+    <title>EBMD: Evidence-Based Materiality Diagnostic</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+            line-height: 1.6;
+        }
+        body {
+            margin: 0;
+            background: #f6f7fb;
+            color: #1f2937;
+        }
+        header {
+            background: linear-gradient(120deg, #0f172a, #1e40af);
+            color: #fff;
+            padding: 32px 20px;
+        }
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+        header p {
+            margin: 0;
+            max-width: 780px;
+        }
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px 20px 48px;
+        }
+        section {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+        }
+        h2 {
+            margin-top: 0;
+            font-size: 22px;
+        }
+        h3 {
+            margin-bottom: 8px;
+        }
+        .sop-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        }
+        .card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            background: #f8fafc;
+        }
+        .form-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #cbd5f5;
+            font-size: 14px;
+        }
+        button {
+            background: #1d4ed8;
+            color: #fff;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        button:hover {
+            background: #1e40af;
+        }
+        .result-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            margin-top: 16px;
+        }
+        .result-card {
+            background: #0f172a;
+            color: #fff;
+            padding: 16px;
+            border-radius: 12px;
+        }
+        .pill {
+            display: inline-block;
+            background: #e2e8f0;
+            color: #1e293b;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            margin-right: 6px;
+        }
+        .note {
+            font-size: 12px;
+            color: #64748b;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
-    <form id="report-form">
-        <label for="name">氏名:</label>
-        <input type="text" id="name" name="name" required>
-        <br>
-        <label for="student-number">学籍番号 (半角小文字英数7桁):</label>
-        <input type="text" id="student-number" name="student-number" pattern="[a-z0-9]{7}" title="半角小文字英数7桁の学籍番号を入力してください" required>
-        <br>
-        <label for="class-number">授業回数:</label>
-        <select id="class-number" name="class-number" required>
-          <option value="第1回">第1回</option>
-          <option value="第2回">第2回</option>
-          <option value="第3回">第3回</option>
-          <option value="第4回">第4回</option>
-          <option value="第5回">第5回</option>
-          <option value="第6回">第6回</option>
-          <option value="第7回">第7回</option>
-          <option value="第8回">第8回</option>
-          <option value="第9回">第9回</option>
-          <option value="第10回">第10回</option>
-          <option value="第11回">第11回</option>
-          <option value="第12回">第12回</option>
-          <option value="第13回">第13回</option>
-          <option value="第14回">第14回</option>
-          <option value="中間1">中間1</option>
-          <option value="中間2">中間2</option>  
-          <option value="期末">期末</option>
-        </select>
-        <br>
-        <button type="submit">ファイル名生成</button>
-    </form>
-    <p id="output"></p>
+    <header>
+        <h1>Evidence-Based Materiality Diagnostic (EBMD)</h1>
+        <p>
+            Nikkei 225レベルの財務・ESGデータを学習させ、入力されたESG指標から診断スコアと処方箋を返す、
+            コンサルティング実務向けのプロトタイプです。
+        </p>
+    </header>
+
+    <main>
+        <section>
+            <h2>標準作業プロセス（SOP）概要</h2>
+            <div class="sop-grid">
+                <div class="card">
+                    <h3>Phase 1: Data Standardization</h3>
+                    <p>財務・非財務指標を偏差値化し、比較可能な「ものさし」を構築。</p>
+                    <p class="note">成果物：戦力レーダーチャート / 偏差値テーブル</p>
+                </div>
+                <div class="card">
+                    <h3>Phase 2: Market Modeling</h3>
+                    <p>市場平均の「効き方」を回帰・ラグ・非線形モデルで数理化。</p>
+                    <p class="note">成果物：予測式（Theoretical Formula）</p>
+                </div>
+                <div class="card">
+                    <h3>Phase 3: Individual Diagnosis</h3>
+                    <p>期待値と実績の残差を評価し、競争優位/非効率を可視化。</p>
+                    <p class="note">成果物：残差マトリクス / Gap分析</p>
+                </div>
+                <div class="card">
+                    <h3>Phase 4: Strategic Prescription</h3>
+                    <p>KPI再定義・IRストーリー・投資配分を戦略的に再構築。</p>
+                    <p class="note">成果物：アクションプラン・経営提言</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>EBMD診断デモ（簡易版）</h2>
+            <p>手元データがある前提で、偏差値化 → 予測式 → 残差診断を再現する簡易計算機です。</p>
+            <form id="diagnostic-form">
+                <div class="form-grid">
+                    <div>
+                        <label for="company">企業名</label>
+                        <input id="company" name="company" type="text" placeholder="例：ABCホールディングス" required>
+                    </div>
+                    <div>
+                        <label for="industry">業種ベンチマーク</label>
+                        <select id="industry" name="industry" required>
+                            <option value="manufacturing">製造業（Nikkei 225）</option>
+                            <option value="services">サービス業（Nikkei 225）</option>
+                            <option value="finance">金融（Nikkei 225）</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="roa">実績ROA（%）</label>
+                        <input id="roa" name="roa" type="number" step="0.1" placeholder="例：6.2" required>
+                    </div>
+                    <div>
+                        <label for="co2">CO2排出量（t-CO2）</label>
+                        <input id="co2" name="co2" type="number" step="1" placeholder="例：120000" required>
+                    </div>
+                    <div>
+                        <label for="water">水使用量（千m³）</label>
+                        <input id="water" name="water" type="number" step="1" placeholder="例：580" required>
+                    </div>
+                    <div>
+                        <label for="waste">廃棄物量（t）</label>
+                        <input id="waste" name="waste" type="number" step="1" placeholder="例：4200" required>
+                    </div>
+                    <div>
+                        <label for="people">人的資本スコア（0-100）</label>
+                        <input id="people" name="people" type="number" step="1" min="0" max="100" placeholder="例：72" required>
+                    </div>
+                    <div>
+                        <label for="governance">ガバナンススコア（0-100）</label>
+                        <input id="governance" name="governance" type="number" step="1" min="0" max="100" placeholder="例：65" required>
+                    </div>
+                </div>
+                <div style="margin-top: 16px;">
+                    <button type="submit">診断スコアを計算</button>
+                </div>
+            </form>
+
+            <div id="result" class="result-grid" hidden></div>
+            <p class="note">※ 数値はデモ用の仮パラメータです。実務では自社/業界データで再推定します。</p>
+        </section>
+    </main>
+
+    <footer>
+        EBMD Prototype · Evidence-based consulting workflow
+    </footer>
+
     <script>
-        document.getElementById("report-form").addEventListener("submit", function(event) {
+        const benchmark = {
+            manufacturing: {
+                roa: { mean: 5.0, std: 1.8 },
+                co2: { mean: 150000, std: 40000 },
+                water: { mean: 650, std: 180 },
+                waste: { mean: 5200, std: 1400 },
+                people: { mean: 68, std: 10 },
+                governance: { mean: 70, std: 8 },
+            },
+            services: {
+                roa: { mean: 4.4, std: 1.4 },
+                co2: { mean: 60000, std: 18000 },
+                water: { mean: 220, std: 70 },
+                waste: { mean: 1300, std: 500 },
+                people: { mean: 74, std: 9 },
+                governance: { mean: 72, std: 7 },
+            },
+            finance: {
+                roa: { mean: 3.2, std: 1.1 },
+                co2: { mean: 22000, std: 8000 },
+                water: { mean: 90, std: 30 },
+                waste: { mean: 300, std: 120 },
+                people: { mean: 70, std: 8 },
+                governance: { mean: 78, std: 6 },
+            },
+        };
+
+        const weights = {
+            co2: -0.25,
+            water: -0.15,
+            waste: -0.1,
+            people: 0.3,
+            governance: 0.2,
+        };
+
+        const deviationScore = (value, mean, std) => 50 + 10 * ((value - mean) / std);
+
+        const format = (value) => Number.isFinite(value) ? value.toFixed(1) : "-";
+
+        const form = document.getElementById("diagnostic-form");
+        const result = document.getElementById("result");
+
+        form.addEventListener("submit", (event) => {
             event.preventDefault();
 
-            const name = document.getElementById("name").value;
-            const studentNumber = document.getElementById("student-number").value;
-            const classNumber = document.getElementById("class-number").value;
+            const data = new FormData(form);
+            const industry = data.get("industry");
+            const bench = benchmark[industry];
 
-            const fileName = `2024_${classNumber}_${studentNumber}_${name}_入門外国語経営レポート`;
+            const values = {
+                roa: Number(data.get("roa")),
+                co2: Number(data.get("co2")),
+                water: Number(data.get("water")),
+                waste: Number(data.get("waste")),
+                people: Number(data.get("people")),
+                governance: Number(data.get("governance")),
+            };
 
-            document.getElementById("output").innerText = `この鍵かっこ「」の中にあるファイル名をコピー＆ペーストしてください: 「${fileName}」`;
+            const deviations = {
+                roa: deviationScore(values.roa, bench.roa.mean, bench.roa.std),
+                co2: deviationScore(values.co2, bench.co2.mean, bench.co2.std),
+                water: deviationScore(values.water, bench.water.mean, bench.water.std),
+                waste: deviationScore(values.waste, bench.waste.mean, bench.waste.std),
+                people: deviationScore(values.people, bench.people.mean, bench.people.std),
+                governance: deviationScore(values.governance, bench.governance.mean, bench.governance.std),
+            };
+
+            const materialityScore = (
+                deviations.co2 * weights.co2 +
+                deviations.water * weights.water +
+                deviations.waste * weights.waste +
+                deviations.people * weights.people +
+                deviations.governance * weights.governance
+            );
+
+            const expectedRoa = 40 + 0.6 * materialityScore;
+            const residual = deviations.roa - expectedRoa;
+
+            let diagnosis = "市場平均並み";
+            if (residual > 5) diagnosis = "競争優位（Hidden Gem）";
+            if (residual < -5) diagnosis = "非効率（戦略不整合）";
+
+            result.innerHTML = `
+                <div class="result-card">
+                    <span class="pill">偏差値</span>
+                    <h3>マテリアリティ総合</h3>
+                    <p>スコア: ${format(materialityScore)}</p>
+                </div>
+                <div class="result-card">
+                    <span class="pill">予測式</span>
+                    <h3>期待ROA偏差値</h3>
+                    <p>${format(expectedRoa)}</p>
+                </div>
+                <div class="result-card">
+                    <span class="pill">残差</span>
+                    <h3>Gap診断</h3>
+                    <p>残差: ${format(residual)}</p>
+                    <p>${diagnosis}</p>
+                </div>
+                <div class="result-card">
+                    <span class="pill">個別</span>
+                    <h3>主要指標偏差値</h3>
+                    <p>CO2: ${format(deviations.co2)}</p>
+                    <p>水使用: ${format(deviations.water)}</p>
+                    <p>廃棄物: ${format(deviations.waste)}</p>
+                    <p>人的資本: ${format(deviations.people)}</p>
+                    <p>ガバナンス: ${format(deviations.governance)}</p>
+                </div>
+            `;
+            result.hidden = false;
         });
     </script>
 </body>
