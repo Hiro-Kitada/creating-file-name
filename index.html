@@ -1,54 +1,70 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>レポートファイル名生成</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>百人一首 読み上げゲーム</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <form id="report-form">
-        <label for="name">氏名:</label>
-        <input type="text" id="name" name="name" required>
-        <br>
-        <label for="student-number">学籍番号 (半角小文字英数7桁):</label>
-        <input type="text" id="student-number" name="student-number" pattern="[a-z0-9]{7}" title="半角小文字英数7桁の学籍番号を入力してください" required>
-        <br>
-        <label for="class-number">授業回数:</label>
-        <select id="class-number" name="class-number" required>
-          <option value="第1回">第1回</option>
-          <option value="第2回">第2回</option>
-          <option value="第3回">第3回</option>
-          <option value="第4回">第4回</option>
-          <option value="第5回">第5回</option>
-          <option value="第6回">第6回</option>
-          <option value="第7回">第7回</option>
-          <option value="第8回">第8回</option>
-          <option value="第9回">第9回</option>
-          <option value="第10回">第10回</option>
-          <option value="第11回">第11回</option>
-          <option value="第12回">第12回</option>
-          <option value="第13回">第13回</option>
-          <option value="第14回">第14回</option>
-          <option value="中間1">中間1</option>
-          <option value="中間2">中間2</option>  
-          <option value="期末">期末</option>
-        </select>
-        <br>
-        <button type="submit">ファイル名生成</button>
-    </form>
-    <p id="output"></p>
-    <script>
-        document.getElementById("report-form").addEventListener("submit", function(event) {
-            event.preventDefault();
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Hyakunin Isshu Reader</p>
+      <h1>百人一首 自動読み上げシステム</h1>
+      <p class="lead">クリックで札を選び、そのゲームの回に入れる歌だけを自動で読み上げます。</p>
+    </div>
+  </header>
 
-            const name = document.getElementById("name").value;
-            const studentNumber = document.getElementById("student-number").value;
-            const classNumber = document.getElementById("class-number").value;
+  <main class="app-shell">
+    <section class="panel controls" aria-labelledby="setup-title">
+      <h2 id="setup-title">ゲーム設定</h2>
+      <div class="control-grid">
+        <label>
+          読み上げ速度
+          <input id="rate" type="range" min="0.5" max="1.5" step="0.1" value="0.9">
+          <span id="rate-value">0.9</span>
+        </label>
+        <label>
+          間隔（秒）
+          <input id="pause" type="number" min="1" max="20" value="5">
+        </label>
+        <label>
+          読み順
+          <select id="order">
+            <option value="random">ランダム</option>
+            <option value="number">歌番号順</option>
+          </select>
+        </label>
+      </div>
+      <div class="button-row">
+        <button id="select-all" type="button">全て入れる</button>
+        <button id="clear-all" type="button">全て外す</button>
+        <button id="random-20" type="button">20首だけ選ぶ</button>
+      </div>
+    </section>
 
-            const fileName = `2024_${classNumber}_${studentNumber}_${name}_入門外国語経営レポート`;
+    <section class="panel player" aria-labelledby="player-title">
+      <h2 id="player-title">読み上げ</h2>
+      <p id="selected-count" class="selected-count">0首を選択中</p>
+      <article id="now-card" class="now-card">
+        <p class="muted">下の一覧から歌を選んで「開始」を押してください。</p>
+      </article>
+      <div class="button-row player-buttons">
+        <button id="start" type="button" class="primary">開始</button>
+        <button id="next" type="button">次を読む</button>
+        <button id="stop" type="button">停止</button>
+      </div>
+    </section>
 
-            document.getElementById("output").innerText = `この鍵かっこ「」の中にあるファイル名をコピー＆ペーストしてください: 「${fileName}」`;
-        });
-    </script>
+    <section class="panel" aria-labelledby="poem-list-title">
+      <div class="list-header">
+        <h2 id="poem-list-title">歌をクリックして今回のゲームに入れる</h2>
+        <input id="search" type="search" placeholder="番号・作者・上の句で検索" aria-label="歌を検索">
+      </div>
+      <div id="poem-list" class="poem-list" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,73 @@
+:root {
+  color-scheme: light;
+  --bg: #f7efe4;
+  --panel: #fffaf2;
+  --ink: #2d2014;
+  --muted: #75695d;
+  --accent: #a83f39;
+  --accent-dark: #7f2824;
+  --gold: #d3a94f;
+  --border: #e5d4bd;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+  background: radial-gradient(circle at top left, #fff8ec 0, var(--bg) 42rem);
+  color: var(--ink);
+}
+
+.hero {
+  padding: 48px 24px 32px;
+  background: linear-gradient(135deg, #611f1c, #ad4a3b);
+  color: #fffaf2;
+}
+.hero > div, .app-shell { max-width: 1120px; margin: 0 auto; }
+.eyebrow { color: #f6d98c; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+h1 { font-size: clamp(2rem, 5vw, 4rem); margin: 0 0 12px; }
+.lead { font-size: 1.15rem; line-height: 1.8; max-width: 760px; }
+
+.app-shell { padding: 24px; display: grid; gap: 20px; }
+.panel {
+  background: rgba(255, 250, 242, .94);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 16px 36px rgba(67, 38, 14, .08);
+  padding: 22px;
+}
+.controls, .player { display: grid; gap: 16px; }
+.control-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+label { display: grid; gap: 8px; font-weight: 700; }
+input, select, button {
+  font: inherit;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+}
+button { cursor: pointer; background: #fff; color: var(--ink); font-weight: 700; }
+button:hover { border-color: var(--accent); }
+.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.primary:hover { background: var(--accent-dark); }
+.button-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.selected-count { color: var(--accent); font-weight: 800; }
+.now-card { min-height: 140px; border: 2px dashed var(--border); border-radius: 18px; padding: 18px; background: #fffdf8; }
+.now-card h3 { margin: 0 0 8px; color: var(--accent-dark); }
+.poem-text { font-size: 1.35rem; line-height: 1.9; }
+.muted { color: var(--muted); }
+.list-header { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: center; }
+#search { min-width: min(100%, 320px); }
+.poem-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; margin-top: 18px; }
+.poem-card {
+  text-align: left;
+  border-radius: 16px;
+  padding: 14px;
+  background: #fff;
+  border: 2px solid transparent;
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+.poem-card[aria-pressed="true"] { border-color: var(--gold); background: #fff6d8; }
+.poem-card strong { display: block; color: var(--accent-dark); margin-bottom: 6px; }
+.poem-card span { display: block; line-height: 1.6; }
+@media (min-width: 840px) { .app-shell { grid-template-columns: 1fr 1fr; } .panel:last-child { grid-column: 1 / -1; } }
